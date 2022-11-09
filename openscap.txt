@@ -1,0 +1,25 @@
+ls -1 /usr/share/xml/scap/ssg/content/ssg-*-ds.xml
+
+/usr/share/xml/scap/ssg/content/ssg-firefox-ds.xml
+/usr/share/xml/scap/ssg/content/ssg-jre-ds.xml
+/usr/share/xml/scap/ssg/content/ssg-rhel6-ds.xml
+/usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
+/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
+
+oscap info /usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
+
+Title: CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server
+Id: xccdf_org.ssgproject.content_profile_cis
+Title: CIS Red Hat Enterprise Linux 8 Benchmark for Level 1 - Server
+Id: xccdf_org.ssgproject.content_profile_cis_server_l1
+Title: CIS Red Hat Enterprise Linux 8 Benchmark for Level 1 - Workstation
+Id: xccdf_org.ssgproject.content_profile_cis_workstation_l1
+Title: CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Workstation
+Id: xccdf_org.ssgproject.content_profile_cis_workstation_l2
+
+oscap xccdf eval \
+ --profile xccdf_org.ssgproject.content_profile_cis_workstation_l2 \
+ --results-arf arf.xml \
+ --report report.html \
+ /usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
+ 
