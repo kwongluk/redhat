@@ -1,0 +1,12 @@
+yum install yum-utils
+yum install yum-plugin-downloadonly
+
+#Download package
+sudo yum install --downloadonly --downloaddir=/home/admin/scap-workbench/ scap-workbench
+sudo yum install --downloadonly --downloaddir=/home/admin/openscap-scanner/ openscap-scanner
+sudo yum install --downloadonly --downloaddir=/home/admin/scap-security-guide/ scap-security-guide
+
+#Install RPM File with Yum
+sudo yum -y --disablerepo=* localinstall /home/admin/scap-workbench/*.rpm
+sudo yum -y --disablerepo=* localinstall /home/admin/openscap-scanner/*.rpm
+sudo yum -y --disablerepo=* localinstall /home/admin/scap-security-guide/*.rpm
