@@ -1,0 +1,15 @@
+#
+
+How To Install xrdp on Red Hat Enterprise Linux 8
+
+yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+yum install -y tigervnc-server xrdp
+
+systemctl start xrdp
+
+systemctl enable xrdp
+
+firewall-cmd --permanent --add-port=3389/tcp
+
+firewall-cmd --reload
