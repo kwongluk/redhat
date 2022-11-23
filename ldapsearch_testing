@@ -1,4 +1,7 @@
 sudo yum install --downloadonly --downloaddir=/software/openldap-clients/ openldap-clients
 sudo yum -y --disablerepo=* localinstall /software/openldap-clients/*.rpm
-sudo ldapsearch -x -b "dc=testdomain,dc=local" -H ldap://192.168.52.129 -D "CN=administrator,CN=Users,dc=testdomain,dc=local" -W
+sudo ldapsearch -x -b "dc=testdomain,dc=local" -H ldap://192.168.52.129 -D "CN=user1,CN=Users,dc=testdomain,dc=local" -W
+sudo ldapsearch -x -b "dc=testdomain,dc=local" -H ldap://192.168.52.129 -D "cn=sasadm,ou=sasviya,dc=testdomain,dc=local" -W
+
+
 
