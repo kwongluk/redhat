@@ -4,4 +4,13 @@ sudo ldapsearch -x -b "dc=testdomain,dc=local" -H ldap://192.168.52.129 -D "CN=u
 sudo ldapsearch -x -b "dc=testdomain,dc=local" -H ldap://192.168.52.129 -D "cn=sasadm,ou=sasviya,dc=testdomain,dc=local" -W
 
 
+ldap login firewall port
+53
+88
+5353
+389
+3268
+
+
+
 
