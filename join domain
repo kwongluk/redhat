@@ -11,7 +11,9 @@ ad_domain = testdomain.local
 krb5_realm = TESTDOMAIN.LOCAL
 realmd_tags = manages-system joined-with-adcli
 cache_credentials = True
-id_provider = ad
+#id_provider = ad
+auth_provider = ldap
+auth_provider = ldap
 krb5_store_password_if_offline = True
 default_shell = /bin/bash
 ldap_id_mapping = True
@@ -27,3 +29,4 @@ dyndns_update_ptr = true
 dyndns_ttl = 3600
 dyndns_auth = GSS-TSIG
 
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/windows_integration_guide/index#SSSD-AD
