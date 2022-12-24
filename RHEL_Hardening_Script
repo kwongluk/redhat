@@ -1,0 +1,15 @@
+
+#Downlaod Open Scap Tool
+https://www.open-scap.org/security-policies/scap-security-guide/
+https://www.open-scap.org/tools/openscap-base/
+
+#Check hardening rule 
+oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis --results-arf arf2.xml --report report2.html /usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
+
+#Fix hardening rule
+oscap xccdf eval --remediate --profile xccdf_org.ssgproject.content_profile_cis --results scan-xccdf-results.xml /usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
+
+#Extra
+firewall-cmd --zone=public --set-target=DROP --permanent
+grub2-setpassword
+find / -xdev -type f -perm -002 -exec chmod o-w {} \;
