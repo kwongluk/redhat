@@ -18,7 +18,7 @@ Title: CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Workstation
 Id: xccdf_org.ssgproject.content_profile_cis_workstation_l2
 
 oscap xccdf eval \
- --profile xccdf_org.ssgproject.content_profile_cis_workstation_l2 \
+ --profile xccdf_org.ssgproject.content_profile_cis \
  --results-arf arf.xml \
  --report report.html \
  /usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
