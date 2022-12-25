@@ -11,6 +11,10 @@ sudo oscap xccdf eval --remediate --profile xccdf_org.ssgproject.content_profile
 
 #Extra
 firewall-cmd --zone=public --set-target=DROP --permanent
+vi /etc/firewalld/firewalld.conf
+DefaultZone=drop
+
+
 grub2-setpassword
 find / -xdev -type f -perm -002 -exec chmod o-w {} \;
 
