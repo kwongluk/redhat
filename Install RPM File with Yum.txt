@@ -1,12 +1,23 @@
+ mkdir scap-workbench
+ mkdir openscap-scanner
+ mkdir scap-security-guide
+ mkdir ansible-2.9
+   
 yum install yum-utils
 yum install yum-plugin-downloadonly
 
 #Download package
-sudo yum install --downloadonly --downloaddir=/home/admin/scap-workbench/ scap-workbench
-sudo yum install --downloadonly --downloaddir=/home/admin/openscap-scanner/ openscap-scanner
-sudo yum install --downloadonly --downloaddir=/home/admin/scap-security-guide/ scap-security-guide
+sudo yum install -y --downloadonly --downloaddir=/home/admin/scap-workbench/ scap-workbench
+sudo yum install -y --downloadonly --downloaddir=/home/admin/openscap-scanner/ openscap-scanner
+sudo yum install -y --downloadonly --downloaddir=/home/admin/scap-security-guide/ scap-security-guide
+
+sudo subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+sudo yum install -y --downloadonly --downloaddir=/home/admin/ansible-2.9/ ansible
+
 
 #Install RPM File with Yum
 sudo yum -y --disablerepo=* localinstall /home/admin/scap-workbench/*.rpm
 sudo yum -y --disablerepo=* localinstall /home/admin/openscap-scanner/*.rpm
 sudo yum -y --disablerepo=* localinstall /home/admin/scap-security-guide/*.rpm
+
+sudo yum -y --disablerepo=* localinstall /home/admin/ansible-2.9/*.rpm
