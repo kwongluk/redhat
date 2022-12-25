@@ -13,3 +13,18 @@ sudo oscap xccdf eval --remediate --profile xccdf_org.ssgproject.content_profile
 firewall-cmd --zone=public --set-target=DROP --permanent
 grub2-setpassword
 find / -xdev -type f -perm -002 -exec chmod o-w {} \;
+
+############################################################
+gh repo clone RedHatOfficial/ansible-role-rhel8-cis
+git@github.com:RedHatOfficial/ansible-role-rhel8-cis.git
+https://github.com/RedHatOfficial/ansible-role-rhel8-cis.git
+
+ansible-galaxy install RedHatOfficial.rhel8_cis
+
+- hosts: all
+  roles:
+     - { role: RedHatOfficial.rhel8_cis }
+
+ansible-playbook -i "localhost," -c local --check playbook.yml
+ansible-playbook -i "localhost," -c local playbook.yml
+
