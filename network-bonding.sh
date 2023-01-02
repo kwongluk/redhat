@@ -13,9 +13,4 @@ nmcli connection modify bond0 connection.autoconnect-slaves 1
 nmcli connection up bond0
 cat /proc/net/bonding/bond0
 
-firewall-cmd --get-default-zone
-firewall-cmd --set-default-zone public
-firewall-cmd --get-default-zone
-
-
 
