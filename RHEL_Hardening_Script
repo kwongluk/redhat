@@ -32,3 +32,8 @@ ansible-galaxy install RedHatOfficial.rhel8_cis
 ansible-playbook -i "localhost," -c local --check playbook.yml
 ansible-playbook -i "localhost," -c local playbook.yml
 
+#CIS Assessor Scan Tool
+PATH=$PATH:/Assessor/java8/bin
+java -Xmx2048M -jar Assessor-CLI.jar -b benchmarks/CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.0.1-xccdf.xml -p "Level 2 - Server" -csv -html --verbose
+
+
