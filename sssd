@@ -27,10 +27,19 @@ dyndns_ttl = 3600
 dyndns_auth = GSS-TSIG
 
 
-############################
+###################################
 authselect select sssd with-mkhomedir
 systemctl enable --now oddjobd.service
 id domain1\\Administrator
+
+####################################
+update-crypto-policies --set LEGACY
+update-crypto-policies --set DEFAULT
+add rc4-hmac in /etc/krb5.conf.d/crypto-policies as permitted_enctypes as shown below.
+[libdefaults]
+permitted_enctypes = aes256-cts-hmac-sha1-96 aes256-cts-hmac-sha384-192 camellia256-cts-cmac aes128-cts-hmac-sha1-96 aes128-cts-hmac-sha256-128 camellia128-cts-cmac rc4-hmac
+
+
 
 
 
