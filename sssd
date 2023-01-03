@@ -27,3 +27,11 @@ dyndns_ttl = 3600
 dyndns_auth = GSS-TSIG
 
 
+############################
+authselect select sssd with-mkhomedir
+systemctl enable --now oddjobd.service
+id domain1\\Administrator
+
+
+
+
