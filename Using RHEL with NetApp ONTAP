@@ -1,0 +1,62 @@
+Download the 64-bit Linux Unified Host Utilities software package from the NetApp Support Site to your host.
+
+Use the following command to install the software package:
+
+rpm -ivh netapp_linux_unified_host_utilities-7-1.x86_64
+
+SAN Toolkit
+The toolkit is installed automatically when you install the NetApp Host Utilities package. 
+This kit provides the sanlun utility, which helps you manage LUNs and HBAs. 
+The sanlun command returns information about the LUNs mapped to your host, multipathing, and information necessary to create initiator groups.
+
+# sanlun lun show all
+
+Multipathing
+For Red Hat Enterprise Linux (RHEL) 8.6 the /etc/multipath.conf file must exist, but you do not need to make specific changes to the file. 
+RHEL 8.6 is compiled with all settings required to recognize and correctly manage ONTAP LUNs.
+
+You can use the multipath -ll command to verify the settings for your ONTAP LUNs.
+
+Recommended Settings
+The RHEL 8.6 OS is compiled to recognize ONTAP LUNs and automatically set all configuration parameters correctly for both ASA and non-ASA configuration.
+
+The multipath.conf file must exist for the multipath daemon to start, but you can create an empty, zero-byte file using the command:
+touch /etc/multipath.conf
+
+The first time you create this file, you might need to enable and start the multipath services.
+
+# systemctl enable multipathd
+# systemctl start multipathd
+
+vi /etc/multipath.conf
+
+defaults {
+   path_checker      readsector0
+   no_path_retry      fail
+}
+
+devices {
+   device {
+      vendor         "NETAPP  "
+      product         "LUN.*"
+      no_path_retry     queue
+      path_checker      tur
+   }
+}
+
+
+
+Run the following command to determine the WWID:
+
+# /lib/udev/scsi_id -gud /dev/sda
+360030057024d0730239134810c0cb833
+Add this WWID to the blacklist stanza in the /etc/multipath.conf:
+
+blacklist {
+     wwid   360030057024d0730239134810c0cb833
+     devnode "^(ram|raw|loop|fd|md|dm-|sr|scd|st)[0-9]*"
+     devnode "^hd[a-z]"
+     devnode "^cciss.*"
+}
+
+
