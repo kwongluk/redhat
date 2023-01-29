@@ -1,0 +1,49 @@
+#How to Permanently Disable Swap
+
+# Check swap partition
+blkid
+lsblk
+
+#disable all swaps from /proc/swaps.
+swapoff -a 
+
+#To check if the swap area has been disabled, run the free command.
+free -h
+
+#To permanently disable Linux swap space, open the /etc/fstab file, search for a swap line and add a # (hashtag) sign in front of the line to comment on the entire line.
+vi /etc/fstab
+
+#reboot the system in order to apply the new swap setting
+init 6
+
+#check Logical volume path
+lvdisplay
+
+ --- Logical volume ---
+  LV Path                /dev/rhel/swap
+  LV Name                swap
+  VG Name                rhel
+  
+
+#Disable lvm
+lvchange -an /dev/rhel/swap 
+
+#Delete lvm volume 
+lvremove /dev/rhel/swap
+
+Logical volume "swap" successfully removed.
+
+#verify --> swap partition is gone
+blkid
+lsblk
+
+
+
+
+
+
+
+
+
+
+
