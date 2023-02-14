@@ -1,0 +1,17 @@
+# create alias
+# vi /etc/multipath.conf
+
+multipaths {
+multipath {
+          wwid  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          alias multipathA
+          }
+}
+
+
+# fdisk -l
+Disk /dev/mapper/multipathA: 4 TiB, 4398046511104 bytes, 8589934592 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 65536 bytes
+
