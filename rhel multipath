@@ -1,17 +1,53 @@
+# yum install device-mapper-multipath
+# mpathconf --enable
+# multipath -a root_devname
+# multipath -a /dev/sdc
+
+# multipath -l | grep 3600d02300069c9ce09d41c4ac9c53200
+
+# dmsetup ls
+# multipathd show maps
+# multipathd show wildcards
+# multipathd show maps format "%n %w %d %s"
+# multipathd show maps raw format "%n %w %d %s"
+# echo 1 > /sys/block/sda/device/rescan
+# echo 1 > /sys/block/sdb/device/rescan
+# echo 1 > /sys/block/sde/device/rescan
+# echo 1 > /sys/block/sdf/device/rescan
+
+
+
+
+# multipathd show config
+# mpathconf --enable --user_friendly_names y
+
 # create alias
 # vi /etc/multipath.conf
 
 multipaths {
 multipath {
           wwid  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-          alias multipathA
+          alias mpathA
           }
 }
 
 
+# systemctl reload multipathd.service
+
 # fdisk -l
-Disk /dev/mapper/multipathA: 4 TiB, 4398046511104 bytes, 8589934592 sectors
+Disk /dev/mapper/mpathA: 4 TiB, 4398046511104 bytes, 8589934592 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 4096 bytes
 I/O size (minimum/optimal): 4096 bytes / 65536 bytes
+
+# pvcreate /dev/mapper/mpatha
+
+# in the devices section of the file.
+# vi /etc/lvm.conf
+filter = [ "r/block/", "r/disk/", "r/sd.*/", "a/.*/" ]
+
+multipath -v2 -d
+blacklist {
+      wwid SIBM-ESXSST336732LC____F3ET0EP0Q000072428BX1
+}
 
