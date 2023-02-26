@@ -1,4 +1,42 @@
-How to mount Windows share on Red Hat Enterprise Linux system using CIFS?
+Rhel nas file share
+To create a file share using Red Hat Enterprise Linux (RHEL) as a Network Attached Storage (NAS) device, you can use the following steps:
 
-mount -t cifs -o username=<share user>,password=<share password> //WIN_PC_IP/<share name> /mnt
+Install the necessary packages:
+sudo yum install samba samba-client samba-common -y
+Configure the Samba service:
+
+sudo systemctl enable smb.service
+sudo systemctl start smb.service
+Create a directory that you want to share:
+
+sudo mkdir /data/share
+Set the permissions on the shared directory:
+
+sudo chmod -R 777 /data/share
+Open the Samba configuration file for editing:
+
+sudo vi /etc/samba/smb.conf
+Add the following lines at the end of the file:
+
+[share]
+comment = Shared Directory
+path = /data/share
+browseable = yes
+writable = yes
+guest ok = yes
+Note: You can replace "share" with any name you want to use for the share.
+
+Save and close the file.
+
+Restart the Samba service:
+
+sudo systemctl restart smb.service
+You can now access the file share from other computers on the network by entering the RHEL server's IP address followed by the share name in the file explorer, for example:
+
+\\192.168.1.100\share
+Note: Make sure that the RHEL server's firewall is configured to allow Samba traffic.
+
+##How to mount Windows share on Red Hat Enterprise Linux system using CIFS?
+
+mount -t cifs -o username=adminuser,password=passwords123 //192.168.1.100/repo /mnt
 
