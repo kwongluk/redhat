@@ -1,0 +1,25 @@
+#Create a local repo with Red Hat Enterprise Linux 8.6
+#To sync a specific minor release
+subscription-manager release --set=8.6 && rm -rf /var/cache/dnf
+
+reposync -n -p /localrepo/baseos --download-metadata --repo=rhel-8-for-x86_64-baseos-rpms
+reposync -n -p /localrepo/appstream --download-metadata --repo=rhel-8-for-x86_64-appstream-rpms
+
+
+#How do I delete old packages in local repository server?
+find <TARGET_DIR> -type f -name \*.rpm | grep -vf <(repomanage --new <TARGET_DIR>) | xargs -I % rm -v %
+
+
+subscription-manager list --available
+subscription-manager attach --pool=<pool_id>   
+subscription-manager repos --list
+subscription-manager repos --enable <repo_label>
+
+#Example:
+codeready-builder-for-rhel-8-x86_64-rpms
+ansible-2.9-for-rhel-8-x86_64-rpms
+ansible-2.8-for-rhel-8-x86_64-rpms
+rhel-8-for-x86_64-baseos-rpms
+rhel-8-for-x86_64-appstream-rpms
+lvms-4.12-for-rhel-8-x86_64-rpms
+
