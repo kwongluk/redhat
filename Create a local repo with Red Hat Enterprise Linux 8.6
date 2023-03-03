@@ -4,6 +4,7 @@ subscription-manager release --set=8.6 && rm -rf /var/cache/dnf
 
 reposync -n -p /localrepo/baseos --download-metadata --repo=rhel-8-for-x86_64-baseos-rpms
 reposync -n -p /localrepo/appstream --download-metadata --repo=rhel-8-for-x86_64-appstream-rpms
+reposync -n -p /localrepo/codeready --download-metadata --repo=codeready-builder-for-rhel-8-x86_64-rpms
 
 
 #How do I delete old packages in local repository server?
@@ -11,9 +12,11 @@ find <TARGET_DIR> -type f -name \*.rpm | grep -vf <(repomanage --new <TARGET_DIR
 
 
 subscription-manager list --available
-subscription-manager attach --pool=<pool_id>   
+subscription-manager list --available --all
+subscription-manager attach --pool=2c949b85843469e80184610a368c570d   
 subscription-manager repos --list
-subscription-manager repos --enable <repo_label>
+subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
 #Example:
 codeready-builder-for-rhel-8-x86_64-rpms
