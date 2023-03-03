@@ -1,0 +1,9 @@
+
+sudo yum list-security --sec-severity=Important
+sudo yum updateinfo
+sudo yum updateinfo security
+sudo yum update
+sudo yum update --security --cve
+
+
+
