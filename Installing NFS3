@@ -1,0 +1,48 @@
+Installing NFS
+# yum install nfs-utils
+
+Starting the NFS server
+$ systemctl status rpcbind
+$ systemctl enable --now rpcbind
+
+# systemctl enable --now nfs-server
+
+# rpcinfo -p
+# systemctl restart nfs-server
+
+Configuring the NFSv3-enabled server to run behind a firewall
+firewall-cmd --permanent --add-service mountd
+firewall-cmd --permanent --add-service rpc-bind
+firewall-cmd --permanent --add-service nfs
+
+Specify the ports to be used by the RPC service nlockmgr in the /etc/nfs.conf file as follows:
+[lockd]
+
+port=tcp-port-number
+udp-port=udp-port-number
+
+firewall-cmd --permanent --add-port=<lockd-tcp-port>/tcp
+firewall-cmd --permanent --add-port=<lockd-udp-port>/udp
+
+Add static ports for rpc.statd by editing the [statd] section of the /etc/nfs.conf file as follows:
+[statd]
+
+port=port-number
+
+firewall-cmd --permanent --add-port=<statd-tcp-port>/tcp
+firewall-cmd --permanent --add-port=<statd-udp-port>/udp
+
+firewall-cmd --reload
+# systemctl restart rpc-statd.service
+# systemctl restart nfs-server.service
+
+Alternatively, if you specified the lockd ports in the /etc/modprobe.d/lockd.conf file:
+Update the current values of /proc/sys/fs/nfs/nlm_tcpport and /proc/sys/fs/nfs/nlm_udpport:
+# sysctl -w fs.nfs.nlm_tcpport=<tcp-port>
+# sysctl -w fs.nfs.nlm_udpport=<udp-port>
+
+# systemctl restart rpc-statd.service
+# systemctl restart nfs-server.service
+
+
+
