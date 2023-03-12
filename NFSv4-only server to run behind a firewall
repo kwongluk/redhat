@@ -1,0 +1,7 @@
+Configuring the NFSv4-only server to run behind a firewall
+
+# firewall-cmd --permanent --add-service nfs
+# firewall-cmd --reload
+# systemctl restart nfs-server
+
+
