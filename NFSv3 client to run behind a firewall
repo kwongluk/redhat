@@ -1,0 +1,30 @@
+The procedure to configure an NFSv3 client to run behind a firewall is similar to the procedure to configure an NFSv3 server to run behind a firewall.
+
+#firewall-cmd --permanent --add-service rpc-bind
+
+Specify the ports to be used by the RPC service nlockmgr in the /etc/nfs.conf file as follows:
+[lockd]
+
+port=port-number
+udp-port=upd-port-number
+
+Alternatively, you can specify nlm_tcpport and nlm_udpport in the /etc/modprobe.d/lockd.conf file.
+#firewall-cmd --permanent --add-port=<lockd-tcp-port>/tcp
+#firewall-cmd --permanent --add-port=<lockd-udp-port>/udp
+
+Add static ports for rpc.statd by editing the [statd] section of the /etc/nfs.conf file as follows:
+[statd]
+
+port=port-number
+
+#firewall-cmd --reload
+
+Alternatively, if you specified the lockd ports in the /etc/modprobe.d/lockd.conf file:
+Update the current values of /proc/sys/fs/nfs/nlm_tcpport and /proc/sys/fs/nfs/nlm_udpport:
+# sysctl -w fs.nfs.nlm_tcpport=<tcp-port>
+# sysctl -w fs.nfs.nlm_udpport=<udp-port>
+
+# systemctl restart rpc-statd.service
+
+
+
