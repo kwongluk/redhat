@@ -4,4 +4,55 @@ Configuring the NFSv4-only server to run behind a firewall
 # firewall-cmd --reload
 # systemctl restart nfs-server
 
+Configuring an NFSv4-only server
+
+Configuring the NFS server to support only NFSv4
+Disable NFSv3 by adding the following lines to the [nfsd] section of the /etc/nfs.conf configuration file:
+[nfsd]
+
+vers3=no
+
+Optionally, disable listening for the RPCBIND, MOUNT, and NSM protocol calls, which are not necessary in the NFSv4-only case. Disable related services:
+# systemctl mask --now rpc-statd.service rpcbind.service rpcbind.socket
+
+# systemctl restart nfs-server
+# netstat --listening --tcp --udp
+
+Configuring an NFS server and client to use Kerberos
+
+Prerequisites
+
+The Kerberos Key Distribution Centre (KDC) is installed and configured.
+Procedure
+
+Create the nfs/hostname.domain@REALM principal on the NFS server side.
+Create the host/hostname.domain@REALM principal on both the server and the client side.
+Add the corresponding keys to keytabs for the client and server.
+On the server side, use the sec= option to enable the wanted security flavors. To enable all security flavors as well as non-cryptographic mounts:
+
+/export *(sec=sys:krb5:krb5i:krb5p)
+Valid security flavors to use with the sec= option are:
+
+sys: no cryptographic protection, the default
+krb5: authentication only
+krb5i: integrity protection
+
+uses Kerberos V5 for user authentication and performs integrity checking of NFS operations using secure checksums to prevent data tampering.
+krb5p: privacy protection
+
+uses Kerberos V5 for user authentication, integrity checking, and encrypts NFS traffic to prevent traffic sniffing. This is the most secure setting, but it also involves the most performance overhead.
+On the client side, add sec=krb5 (or sec=krb5i, or sec=krb5p, depending on the setup) to the mount options:
+
+# mount -o sec=krb5 server:/export /mnt
+
+File permissions on mounted NFS exports
+Once the NFS file system is mounted as either read or read and write by a remote host, the only protection each shared file has is its permissions. If two users that share the same user ID value mount the same NFS file system on different client systems, they can modify each others' files. Additionally, anyone logged in as root on the client system can use the su - command to access any files with the NFS share.
+
+By default, access control lists (ACLs) are supported by NFS under Red Hat Enterprise Linux. Red Hat recommends to keep this feature enabled.
+
+By default, NFS uses root squashing when exporting a file system. This sets the user ID of anyone accessing the NFS share as the root user on their local machine to nobody. Root squashing is controlled by the default option root_squash; for more information about this option, see NFS server configuration.
+
+When exporting an NFS share as read-only, consider using the all_squash option. This option makes every user accessing the exported file system take the user ID of the nobody user.
+
+
 
