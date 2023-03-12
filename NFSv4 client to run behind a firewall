@@ -1,0 +1,13 @@
+Perform this procedure only if the client is using NFSv4.0. In that case, it is necessary to open a port for NFSv4.0 callbacks.
+
+This procedure is not needed for NFSv4.1 or higher because in the later protocol versions the server performs callbacks on the same connection that was initiated by the client.
+
+To allow NFSv4.0 callbacks to pass through firewalls, set /proc/sys/fs/nfs/nfs_callback_tcpport and allow the server to connect to that port on the client as follows:
+
+# echo "fs.nfs.nfs_callback_tcpport = <callback-port>" >/etc/sysctl.d/90-nfs-callback-port.conf
+# sysctl -p /etc/sysctl.d/90-nfs-callback-port.conf
+
+firewall-cmd --permanent --add-port=<callback-port>/tcp
+
+firewall-cmd --reload
+
