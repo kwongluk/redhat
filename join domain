@@ -1,3 +1,4 @@
+realm join xxx.local --verbose --user=administrator --computer-ou="OU=xxx,OU=SERVERS,DC=xxx,DC=local
 
 
 [sssd]
