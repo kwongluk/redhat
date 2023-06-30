@@ -1,0 +1,44 @@
+Turn Off IPV6 
+
+• Internet Protocol version 6 (IPv6) provides a new Internet layer of the TCP/IP 
+protocol suite that replaces Internet Protocol version 4 (IPv4) and provides many 
+benefits
+• If you are NOT using IPv6 simply disable it
+• Check if ipv6 is enabled
+• ifconfig | grep inet6
+• Turn off ipv6 from grub (CentOS/Redhat 7+)
+• Take a snaphot
+• As root vi /etc/default/grub
+• Go to the following line and add as highlighted
+• GRUB_CMDLINE_LINUX=“ipv6.disable=1 crashkernel=auto …
+• Save the file
+• Update the grub configuration
+• grub2-mkconfig -o /boot/grub2/grub.cfg
+• Reboot the server
+• reboot
+
+
+#nmcli connection modify ens160 ipv6.method "disabled"
+
+Disable IPv6 using sysctl settings (no reboot required)
+1. Append below lines in /etc/sysctl.conf:
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+NOTE : To disable IPv6 on a single interface add below lines to /etc/sysctl.conf :
+net.ipv6.conf.[interface].disable_ipv6 = 1 ### put interface name here [interface]
+net.ipv6.conf.default.disable_ipv6 = 1
+2. To make the settings affective, execute :
+# sysctl -p
+NOTE : make sure the file /etc/ssh/sshd_config contains the line AddressFamily inet to avoid breaking SSH Xforwarding if you are using the sysctl method
+3. Add the AddressFamily line to sshd_config :
+# vi /etc/ssh/sshd_config
+....
+AddressFamily inet
+....
+Restart sshd for changes to get get effect :
+# systemctl restart sshd
+
+
+
+
+
