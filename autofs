@@ -1,0 +1,12 @@
+[root@serverb ~]# dnf install autofs
+
+# vi /etc/auto.master.d/production5.autofs
+/- /etc/auto.production5
+
+# getent passwd production5
+# vi /etc/auto.production5 
+/localhome/production5 -rw servera.lab.example.com:/user-homes/production5
+
+[root@serverb ~]# systemctl restart autofs
+[root@serverb ~]# ls -ld /localhome/production5
+
