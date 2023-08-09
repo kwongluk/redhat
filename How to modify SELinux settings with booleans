@@ -1,0 +1,13 @@
+How to modify SELinux settings with booleans
+$ sudo semanage boolean --list | head
+$ sudo semanage boolean -l -C
+$ sudo dnf install setroubleshoot
+$ sudo semanage boolean --modify --on http_allow_homedirs
+$ sudo setsebool -P httpd_enable_homedirs 1
+vi /sys/fs/selinux/booleans
+
+$ cat /sys/fs/selinux/booleans/httpd_use_nfs 
+0 0
+$ cat /sys/fs/selinux/booleans/httpd_enable_homedirs
+1 1 
+
