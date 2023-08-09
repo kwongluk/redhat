@@ -1,0 +1,6 @@
+sealert -a /var/log/audit/audit.log
+semanage port -a -t http_port_t -p tcp 30080
+firewall-cmd --add-port=30080/tcp --permanent
+firewall-cmd --reload
+
+
