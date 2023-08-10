@@ -1,3 +1,6 @@
+/usr/share/scap-security-guide/bash
+
+
 ls -1 /usr/share/xml/scap/ssg/content/ssg-*-ds.xml
 
 /usr/share/xml/scap/ssg/content/ssg-firefox-ds.xml
