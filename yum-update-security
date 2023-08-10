@@ -1,0 +1,12 @@
+yum updateinfo --security
+yum --security list updates
+yum updateinfo list updates | grep Critical
+yum updateinfo RHSA-2018:1453
+yum updateinfo list --cve CVE-2018-1111
+yum update --cve CVE-2018-1111
+yum updateinfo --security
+
+
+
+
+
