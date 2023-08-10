@@ -1,0 +1,58 @@
+Configuring Ansible for Security Automation
+
+
+#vi ansible.cfg
+[defaults]
+inventory       = ./inventory
+remote_user     = ansible-testuser
+ask_pass        = True
+
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+become_ask_pass=True
+
+
+
+#vi inventory
+[LOCAL]
+workstation
+
+[SERVERS]
+servera
+serverb
+
+[EVERYONE:children]
+LOCAL
+SERVERS
+
+
+ansible EVERYONE --list-hosts
+ansible SERVERS -m ping
+
+
+ansible EVERYONE \
+ -m authorized_key \
+ -a "user=ansible-testuser state=present \
+ key={{ lookup('file', '/home/ansible-testuser/.ssh/id_rsa.pub') }}"
+
+
+ansible EVERYONE \
+ -m lineinfile \
+ -a "path=/etc/ssh/sshd_config \
+ regexp='PasswordAuthentication yes' \
+ backrefs=yes line='PasswordAuthentication no'"
+
+ssh \
+ -o PasswordAuthentication=no \
+ -o PubkeyAuthentication=yes \
+ ansible-testuser@serverb
+
+
+
+
+
+
+
+
