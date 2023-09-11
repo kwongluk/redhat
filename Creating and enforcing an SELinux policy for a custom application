@@ -1,0 +1,52 @@
+Creating and enforcing an SELinux policy for a custom application
+
+$vi mydaemon.c
+
+#include <unistd.h>
+#include <stdio.h>
+
+FILE *f;
+
+int main(void)
+{
+while(1) {
+f = fopen("/var/log/messages","w");
+        sleep(5);
+        fclose(f);
+    }
+}
+
+$ gcc -o mydaemon mydaemon.c
+$ vi mydaemon.service
+[Unit]
+Description=Simple testing daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mydaemon
+
+[Install]
+WantedBy=multi-user.target
+
+$ cp mydaemon /usr/local/bin/
+$ cp mydaemon.service /usr/lib/systemd/system
+$ systemctl start mydaemon
+$ systemctl status mydaemon
+
+$ ps -efZ | grep mydaemon
+$ sepolicy generate --init /usr/local/bin/mydaemon
+$ ./mydaemon.sh
+$ systemctl restart mydaemon
+$ ps -efZ | grep mydaemon
+$ ausearch -m AVC -ts recent
+$ sealert -l "*"
+$ ausearch -m AVC -ts recent | audit2allow -R
+$ macro-expander "logging_write_generic_logs(mydaemon_t)"
+$ echo "logging_write_generic_logs(mydaemon_t)" >> mydaemon.te
+$ echo "allow mydaemon_t var_log_t:file { open write getattr };" >> mydaemon.te
+
+$ ./mydaemon.sh
+$ ps -efZ | grep mydaemon
+$ ausearch -m AVC -ts recent
+
+
