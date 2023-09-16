@@ -78,13 +78,30 @@ lvextend -l +100%FREE /dev/servera_group/servera_volume
 lvs
 xfs_growfs /dev/mapper/servera_group-servera_volume
 
-
+---------------------------------------------------------------------------------------------------------------------------
 lvremove -f servera_group/servera_volume
 vgreduce servera_group /dev/nvme0n2p1
 #If there is only one PV in VG, you need to use vgremove instead of vgreduce.
 vgremove servera_group
 pvremove /dev/nvme0n2p5
 
+--------------------------------------------------------------------------------------------------------------------------
 pvresize /dev/nvme0n2
 lvextend -l +100%FREE /dev/server_group/server_volume
+pvcreate /dev/nvme0n3
+vgextend server_group /dev/nvme0n3
+pvs
+vgs
+lvs
+lvextend -l +100%FREE /dev/server_group/server_volume
+mount /dev/server_group/server_volume /data
+xfs_growfs /data
+-or-
+xfs_growfs /dev/mapper/server_group-server_volume
+df -h
+
+
+
+
+
 
