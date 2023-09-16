@@ -79,3 +79,12 @@ lvs
 xfs_growfs /dev/mapper/servera_group-servera_volume
 
 
+lvremove -f servera_group/servera_volume
+vgreduce servera_group /dev/nvme0n2p1
+#If there is only one PV in VG, you need to use vgremove instead of vgreduce.
+vgremove servera_group
+pvremove /dev/nvme0n2p5
+
+pvresize /dev/nvme0n2
+lvextend -l +100%FREE /dev/server_group/server_volume
+
