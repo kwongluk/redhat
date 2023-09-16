@@ -52,3 +52,30 @@
   695  lvdisplay /dev/servera_group/servera_volume
   696  df -h /data
 
+
+
+#Shutdown the VM
+#Right click the VM and select Edit Settings
+#Select the hard disk you would like to extend
+#On the right side, make the provisioned size as large as you need it
+#Click OK
+#Power on the VM
+#Connect to the command line of the Linux VM via the console or putty session
+#Log in as root
+
+parted /dev/nvme0n2 unit s p free
+parted /dev/nvme0n2 mkpart fifth 117186560s 157286366s
+parted /dev/nvme0n2 set 1 lvm on
+udevadm settle
+cat /sys/block/nvme0n2/queue/physical_block_size
+cat /sys/block/nvme0n2/queue/logical_block_size
+lsblk
+pvcreate /dev/nvme0n2p5
+pvs
+vgextend servera_group /dev/nvme0n2p5
+vgs
+lvextend -l +100%FREE /dev/servera_group/servera_volume
+lvs
+xfs_growfs /dev/mapper/servera_group-servera_volume
+
+
