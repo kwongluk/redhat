@@ -1,0 +1,54 @@
+  643  parted /dev/nvme0n2 mklabel gpt mkpart primary 1MiB 769MiB
+  644  lsblk
+  645  parted /dev/nvme0n2 mkpart primary 770MiB 1026MiB
+  646  parted /dev/nvme0n2 set 1 lvm on
+  647  parted /dev/nvme0n2 set 2 lvm on
+  648  lsblk
+  650  parted /dev/nvme0n2 mkpart primary 770MiB 1026MiB
+  651  parted /dev/nvme0n2 mklabel gpt mkpart primary 1MiB 769MiB
+  652  parted /dev/nvme0n2 mkpart primary 770MiB 1026MiB
+  653  parted /dev/nvme0n2 set 1 lvm on
+  654  parted /dev/nvme0n2 set 2 lvm on
+  655  udevadm settle
+  656  lsblk
+  657  dnf install vdo kmod-kvdo
+  658  parted /dev/nvme0n2 mklabel gpt
+  659  parted /dev/nvme0n2 mkpart first 1MiB 258MiB
+  660  parted /dev/nvme0n2 set 1 lvm on
+  661  parted /dev/nvme0n2 mkpart second 258MiB 514MiB
+  662  parted /dev/nvme0n2 set 2 lvm on
+  663  udevadm settle
+  664  parted /dev/nvme0n2 print
+  665  lsblk
+  666  pvcreate /dev/nvme0n2p1 /dev/nvme0n2p2
+  667  vgcreate servera_group /dev/nvme0n2p1 /dev/nvme0n2p2
+  668  lvcreate -n servera_volume -L 400M servera_group
+  669  mkfs -t xfs /dev/servera_group/servera_volume
+  670  mkdir /data
+  671  echo "/dev/servera_group/servera_volume /data xfs defaults 0 0" >> /etc/fstab
+  672  mount /data
+  673  systemcctl reload-daemon
+  674  systemctl reload-daemon
+  675  systemctl daemon-reload
+  676  cp -a /etc/*.conf /data
+  677  ls /data | wc -l
+  678  pvdisplay /dev/nvme0n2p2
+  679  vgdisplay servera_group
+  680  lvdisplay /dev/servera_group/servera_volume
+  681  df -h /data
+  682  parted /dev/nvme0n2 mkpart third 514MiB 1026MiB
+  683  parted /dev/nvme0n2 set 3 lvm on
+  684  udevadm settle
+  685  pvcreate /dev//dev/nvme0n2p3
+  686  lsblk
+  687  pvcreate /dev/nvme0n2p3
+  688  vgextend servera_group /dev/nvme0n2p3
+  689  lsblk
+  690  lvextend -L 700M /dev/servera_group/servera_volume
+  691  lsblk
+  692  df -h
+  693  xfs_growfs /data
+  694  df -h
+  695  lvdisplay /dev/servera_group/servera_volume
+  696  df -h /data
+
