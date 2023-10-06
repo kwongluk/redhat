@@ -1,0 +1,32 @@
+Install and Configure NFS Server on RHEL 8
+
+sudo yum -y update
+sudo hostnamectl set-hostname server.example.com --static
+sudo yum -y install nfs-utils
+sudo systemctl enable --now nfs-server rpcbind
+
+lsblk  | grep sdb
+# Create partition and file system
+sudo parted -s -a optimal -- /dev/sdb mklabel gpt
+sudo parted -s -a optimal -- /dev/sdb mkpart primary 0% 100%
+sudo parted -s -- /dev/sdb align-check optimal 1
+sudo mkfs.xfs /dev/sdb1
+sudo mkdir /data
+echo "/dev/sdb1 /data xfs defaults 0 0" | sudo tee -a /etc/fstab
+sudo mount -a
+$ df -hT | grep /data
+/dev/sdb1             xfs        20G  176M   20G   1% /data
+
+sudo mkdir  /data/nfshare
+on /etc/exports file will be.
+/data/nfshare           172.16.54.0/24(rw,no_root_squash)
+
+sudo exportfs -rav
+sudo firewall-cmd --add-service=nfs --permanent
+sudo firewall-cmd --add-service={nfs3,mountd,rpc-bind} --permanent 
+sudo firewall-cmd --reload 
+
+
+Mounting NFS Share on the Client
+sudo showmount --exports nfs-server
+
