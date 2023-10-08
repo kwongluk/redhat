@@ -100,8 +100,19 @@ xfs_growfs /data
 xfs_growfs /dev/mapper/server_group-server_volume
 df -h
 
+-----------------------------------------------------------------------------------------------------------------------
+lvresize -r -L 100MB /dev/redhat-vol-group/fedora
+lvresize -r -L 500M /dev/redhat-vol-group/fedora
+lvresize  -r -L +200MB /dev/redhat-vol-group/fedora
 
+lvextend -r -L 100M /dev/redhat-vol-group/fedora
+lvextend  -L 100M /dev/redhat-vol-group/fedora
+lvextend  -L 100MB /dev/redhat-vol-group/fedora
+lvextend  -L +100MB /dev/redhat-vol-group/fedora
+lvextend  -r -L +100MB /dev/redhat-vol-group/fedora
 
+resize2fs -p /dev/mapper/redhat--vol--group-fedora
+xfs_growfs /dev/mapper/redhat--vol--group-fedora
 
 
 
