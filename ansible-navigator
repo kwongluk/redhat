@@ -1,0 +1,8 @@
+
+
+podman pull registry.redhat.io/ansible-automation-platform-23/ee-supported-rhel8:latest
+
+dnf install python3-pip
+sudo python3 -m pip install ansible-navigator
+python3 -m pip install ansible-navigator --user
+pip list -v
