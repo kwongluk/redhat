@@ -7,6 +7,9 @@ reposync -n -p /localrepo/appstream --download-metadata --repo=rhel-8-for-x86_64
 reposync -n -p /localrepo/codeready --download-metadata --repo=codeready-builder-for-rhel-8-x86_64-rpms
 reposync -n -p /localrepo/ansible-2.9 --download-metadata --repo=ansible-2.9-for-rhel-8-x86_64-rpms
 
+reposync -n -p /localrepo/ansible-2.9 --download-metadata --repo=rhel-7-server-rpms
+
+
 
 #How do I delete old packages in local repository server?
 find <TARGET_DIR> -type f -name \*.rpm | grep -vf <(repomanage --new <TARGET_DIR>) | xargs -I % rm -v %
