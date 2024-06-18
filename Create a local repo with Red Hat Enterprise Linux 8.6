@@ -7,6 +7,8 @@ reposync -n -p /localrepo/appstream --download-metadata --repo=rhel-8-for-x86_64
 reposync -n -p /localrepo/codeready --download-metadata --repo=codeready-builder-for-rhel-8-x86_64-rpms
 reposync -n -p /localrepo/ansible-2.9 --download-metadata --repo=ansible-2.9-for-rhel-8-x86_64-rpms
 
+subscription-manager release
+subscription-manager release --set=7.9
 reposync -n -p /localrepo/rhel79 --download-metadata --repo=rhel-7-server-rpms
 
 
